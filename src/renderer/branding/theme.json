@@ -1,0 +1,32 @@
+{
+  "colors": {
+    "bg": "#373B3D",
+    "bgSecondary": "#231F1D",
+    "bgCard": "#303436",
+    "accent": "#609E9C",
+    "accentHover": "#A66A7C",
+    "text": "#609E9C",
+    "textDim": "#A66A7C",
+    "success": "#7cffb2",
+    "warning": "#ffcc66",
+    "danger": "#ff6688",
+    "border": "#FFFFFF"
+  },
+  "font": {
+    "family": "'Berkeley Mono','Segoe UI', 'Meiryo', sans-serif",
+    "monoFamily": "'Cascadia Code', 'Consolas', monospace"
+  },
+  "radius": "12px",
+  "mascot": {
+    "nav": "mascot-nav.png",
+    "importEmpty": "mascot-import.png",
+    "cullEmpty": "mascot-cull.png",
+    "sessionEmpty": "mascot-session.png"
+  },
+  "backgrounds": {
+    "app": "bg-app.png",
+    "import": "bg-import.png",
+    "cull": "bg-cull.png",
+    "settings": "bg-settings.png"
+  }
+}

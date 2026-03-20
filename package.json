@@ -1,0 +1,75 @@
+{
+  "name": "kurokumaimport",
+  "version": "1.0.0",
+  "description": "Photo import, cull, and edit tool",
+  "main": "./out/main/main.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "rebuild": "electron-rebuild -f -w sharp",
+    "pack": "electron-vite build && electron-builder --dir && node scripts/set-icon.js",
+    "dist": "electron-vite build && electron-builder && node scripts/set-icon.js"
+  },
+  "build": {
+    "appId": "com.kurokumaimport.app",
+    "productName": "KurokumaImport",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "out/**/*",
+      "node_modules/**/*",
+      "build/**/*"
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": false,
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "KurokumaImport"
+    },
+    "portable": {
+      "artifactName": "KurokumaImport-Portable.exe"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "electron-store": "^11.0.2",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.2.0",
+    "electron": "^41.0.2",
+    "electron-builder": "^26.8.1",
+    "electron-vite": "^5.0.0",
+    "rcedit": "^5.0.2",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  }
+}
