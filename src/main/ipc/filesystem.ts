@@ -6,7 +6,7 @@ import { SessionFolder, PhotoFile } from '../../shared/types'
 
 function getSettings() {
   try {
-    const Store = require('electron-store')
+    const Store = require('electron-store').default
     const store = new Store()
     return { ...DEFAULT_SETTINGS, ...store.get('settings', {}) }
   } catch {
@@ -19,13 +19,27 @@ function isJpeg(filename: string): boolean {
 }
 
 export function registerFilesystemHandlers(): void {
-  // List all session folders across all cameras
+  // List all session folders across all camera directories
   ipcMain.handle('list-sessions', async () => {
     const settings = getSettings()
     const sessions: SessionFolder[] = []
+    const root = settings.picturesRoot
+    if (!fs.existsSync(root)) return sessions
 
-    for (const camera of settings.cameras) {
-      const cameraDir = path.join(settings.picturesRoot, camera.folderName)
+    // Collect folder names from configured cameras
+    const knownFolders = new Set(settings.cameras.map(c => c.folderName))
+
+    // Also scan the pictures root for any subdirectory that contains date-pattern folders
+    try {
+      const topEntries = fs.readdirSync(root, { withFileTypes: true })
+      for (const top of topEntries) {
+        if (!top.isDirectory()) continue
+        knownFolders.add(top.name)
+      }
+    } catch { /* root not readable */ }
+
+    for (const folderName of knownFolders) {
+      const cameraDir = path.join(root, folderName)
       if (!fs.existsSync(cameraDir)) continue
 
       try {
@@ -57,7 +71,7 @@ export function registerFilesystemHandlers(): void {
           }
 
           sessions.push({
-            camera: camera.folderName,
+            camera: folderName,
             date: entry.name,
             path: sessionPath,
             photoCount: photoCount || keepsCount,
